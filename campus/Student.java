@@ -1,3 +1,4 @@
+```java
 package campus;
 
 import java.util.logging.Logger;
@@ -43,6 +44,14 @@ public class Student {
     }
 
     public void setMarks(double marks) {
+
+        if (marks < 0 || marks > 100) {
+            System.out.println(
+                    "Invalid marks. Marks must be between 0 and 100."
+            );
+            return;
+        }
+
         this.marks = marks;
     }
 
@@ -53,3 +62,4 @@ public class Student {
         LOGGER.info(() -> "Marks      : " + marks);
     }
 }
+```
