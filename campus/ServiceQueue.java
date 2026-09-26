@@ -52,8 +52,12 @@ public class ServiceQueue {
         System.out.println("       SERVICE REQUEST QUEUE");
         System.out.println("================================");
 
-        for (String request : serviceRequests) {
-            System.out.println(request);
+       int number = 1;
+
+for (String request : serviceRequests) {
+    System.out.println(number + ". " + request);
+    number++;
+}
         }
 
         System.out.println("--------------------------------");
