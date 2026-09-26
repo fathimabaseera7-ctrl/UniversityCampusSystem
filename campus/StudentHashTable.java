@@ -1,62 +1,96 @@
 package campus;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class StudentHashTable {
 
     private static final int TABLE_SIZE = 10;
-    private static final Logger LOGGER = Logger.getLogger(StudentHashTable.class.getName());
+
     private Student[] table;
 
     public StudentHashTable() {
         table = new Student[TABLE_SIZE];
     }
 
+    // ==========================================
+    // HASH FUNCTION
+    // ==========================================
+
     private int hashFunction(String studentId) {
-        return Math.floorMod(studentId.hashCode(), TABLE_SIZE);
+
+        return Math.abs(studentId.hashCode()) % TABLE_SIZE;
     }
 
+    // ==========================================
+    // ADD STUDENT
+    // ==========================================
+
     public void addStudent(Student student) {
+
         if (student == null) {
-            LOGGER.warning("Invalid student.");
+            System.out.println("Invalid student.");
             return;
         }
 
-        int index = hashFunction(student.getStudentId());
+        int index =
+                hashFunction(student.getStudentId());
+
         int originalIndex = index;
 
         while (table[index] != null) {
-            if (table[index].getStudentId().equals(student.getStudentId())) {
-                LOGGER.info("Student ID already exists in Hash Table.");
+
+            if (table[index].getStudentId()
+                    .equals(student.getStudentId())) {
+
+                System.out.println(
+                        "Student ID already exists in Hash Table."
+                );
+
                 return;
             }
 
             index = (index + 1) % TABLE_SIZE;
+
             if (index == originalIndex) {
-                LOGGER.warning("Hash Table is full.");
+
+                System.out.println(
+                        "Hash Table is full."
+                );
+
                 return;
             }
         }
 
         table[index] = student;
-        LOGGER.log(Level.INFO, "Student added to Hash Table at index {0}", index);
+
+        System.out.println(
+                "Student added to Hash Table at index "
+                        + index
+        );
     }
 
+    // ==========================================
+    // SEARCH STUDENT
+    // ==========================================
+
     public Student searchStudent(String studentId) {
+
         if (studentId == null) {
             return null;
         }
 
         int index = hashFunction(studentId);
+
         int originalIndex = index;
 
         while (table[index] != null) {
-            if (table[index].getStudentId().equals(studentId)) {
+
+            if (table[index].getStudentId()
+                    .equals(studentId)) {
+
                 return table[index];
             }
 
             index = (index + 1) % TABLE_SIZE;
+
             if (index == originalIndex) {
                 break;
             }
@@ -65,23 +99,78 @@ public class StudentHashTable {
         return null;
     }
 
+    // ==========================================
+    // DELETE STUDENT
+    // ==========================================
+
+    public void deleteStudent(String studentId) {
+
+        if (studentId == null) {
+            System.out.println("Invalid Student ID.");
+            return;
+        }
+
+        int index = hashFunction(studentId);
+
+        int originalIndex = index;
+
+        while (table[index] != null) {
+
+            if (table[index].getStudentId()
+                    .equals(studentId)) {
+
+                table[index] = null;
+
+                System.out.println(
+                        "Student deleted from Hash Table: "
+                                + studentId
+                );
+
+                return;
+            }
+
+            index = (index + 1) % TABLE_SIZE;
+
+            if (index == originalIndex) {
+                break;
+            }
+        }
+
+        System.out.println(
+                "Student not found in Hash Table."
+        );
+    }
+
+    // ==========================================
+    // DISPLAY HASH TABLE
+    // ==========================================
+
     public void displayHashTable() {
-        LOGGER.info("================================");
-        LOGGER.info("       STUDENT HASH TABLE");
-        LOGGER.info("================================");
+
+        System.out.println("================================");
+        System.out.println("       STUDENT HASH TABLE");
+        System.out.println("================================");
 
         for (int i = 0; i < TABLE_SIZE; i++) {
+
+            System.out.print(
+                    "Index " + i + " : "
+            );
+
             if (table[i] == null) {
-                LOGGER.log(Level.INFO, "Index {0} : Empty", i);
+
+                System.out.println("Empty");
+
             } else {
-                LOGGER.log(
-                        Level.INFO,
-                        "Index {0} : {1} - {2}",
-                        new Object[] {i, table[i].getStudentId(), table[i].getName()}
+
+                System.out.println(
+                        table[i].getStudentId()
+                                + " - "
+                                + table[i].getName()
                 );
             }
         }
 
-        LOGGER.info("--------------------------------");
+        System.out.println("--------------------------------");
     }
 }

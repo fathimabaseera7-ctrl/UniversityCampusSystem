@@ -1,4 +1,4 @@
-```java
+
 package campus;
 
 import java.util.logging.Logger;
@@ -62,4 +62,3 @@ public class Student {
         LOGGER.info(() -> "Marks      : " + marks);
     }
 }
-```

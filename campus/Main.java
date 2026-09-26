@@ -1,11 +1,22 @@
 package campus;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+
+        StudentLinkedList studentList = new StudentLinkedList();
+        ActionStack actionStack = new ActionStack();
+        ServiceQueue serviceQueue = new ServiceQueue();
+        StudentBST studentBST = new StudentBST();
+        StudentHashTable hashTable = new StudentHashTable();
+        CampusGraph campusGraph = new CampusGraph();
+
         // ==========================================
-        // 1. CREATE STUDENTS
+        // DEFAULT STUDENT RECORDS
         // ==========================================
 
         Student student1 = new Student(
@@ -36,272 +47,630 @@ public class Main {
                 95
         );
 
-
-        // ==========================================
-        // 2. LINKED LIST
-        // ==========================================
-
-        System.out.println("\n========== LINKED LIST ==========");
-
-        StudentLinkedList studentList = new StudentLinkedList();
-
+        // Add to Linked List
         studentList.addStudent(student1);
         studentList.addStudent(student2);
         studentList.addStudent(student3);
         studentList.addStudent(student4);
 
-        studentList.displayStudents();
-
-
-        // ==========================================
-        // 3. STACK
-        // ==========================================
-
-        System.out.println("\n========== STACK ==========");
-
-        ActionStack actionStack = new ActionStack();
-
-        actionStack.pushAction("Added Student 23DA2-0872");
-        actionStack.pushAction("Added Student 23DA2-0662");
-        actionStack.pushAction("Updated Student 23DA2-0872");
-        actionStack.pushAction("Deleted Student 23DA2-0946");
-
-        actionStack.displayActions();
-        actionStack.viewLastAction();
-
-
-        // ==========================================
-        // 4. QUEUE
-        // ==========================================
-
-        System.out.println("\n========== QUEUE ==========");
-
-        ServiceQueue serviceQueue = new ServiceQueue();
-
-        serviceQueue.addRequest(
-                "23DA2-0872 -> Transcript Request"
-        );
-
-        serviceQueue.addRequest(
-                "23DA2-0662 -> ID Card Request"
-        );
-
-        serviceQueue.addRequest(
-                "23DA2-0946 -> Registration Request"
-        );
-
-        serviceQueue.displayRequests();
-
-        serviceQueue.processNextRequest();
-
-        serviceQueue.displayRequests();
-
-
-        // ==========================================
-        // 5. BINARY SEARCH TREE
-        // ==========================================
-
-        System.out.println("\n========== BINARY SEARCH TREE ==========");
-
-        StudentBST studentBST = new StudentBST();
-
+        // Add to BST
         studentBST.insertStudent(student1);
         studentBST.insertStudent(student2);
         studentBST.insertStudent(student3);
         studentBST.insertStudent(student4);
 
-        studentBST.displayStudents();
+        // Add to Hash Table
+        hashTable.addStudent(student1);
+        hashTable.addStudent(student2);
+        hashTable.addStudent(student3);
+        hashTable.addStudent(student4);
 
-        Student bstResult =
-                studentBST.searchStudent("23DA2-0662");
+        System.out.println();
+        System.out.println("4 student records loaded successfully.");
+        System.out.println();
 
-        if (bstResult != null) {
+        int choice = 0;
 
-            System.out.println("BST Search Result:");
-            bstResult.displayStudent();
+         do {
 
-        } else {
+            // ==========================================
+            // MAIN MENU
+            // ==========================================
 
-            System.out.println("Student not found in BST.");
-        }
+            System.out.println();
+            System.out.println("==========================================");
+            System.out.println("     UNIVERSITY CAMPUS SYSTEM");
+            System.out.println("==========================================");
+            System.out.println("1.  Add Student Record");
+            System.out.println("2.  Update Student Record");
+            System.out.println("3.  Delete Student Record");
+            System.out.println("4.  Display All Records");
+            System.out.println("5.  Add Service Request");
+            System.out.println("6.  Process Service Request");
+            System.out.println("7.  Display Recent Actions");
+            System.out.println("8.  Display Students using BST");
+            System.out.println("9.  Search Student using Hashing");
+            System.out.println("10. Add Campus Location");
+            System.out.println("11. Remove Campus Location");
+            System.out.println("12. Add Campus Connection");
+            System.out.println("13. Remove Campus Connection");
+            System.out.println("14. Display Campus Connections");
+            System.out.println("15. BFS Campus Traversal");
+            System.out.println("16. Exit");
+            System.out.println("==========================================");
 
+            System.out.print("Enter your choice: ");
 
-        // ==========================================
-        // 6. HASH TABLE
-        // ==========================================
+            // ==========================================
+            // MENU INPUT VALIDATION
+            // ==========================================
 
-        System.out.println("\n========== HASH TABLE ==========");
+            if (!scanner.hasNextInt()) {
 
-        StudentHashTable studentHashTable =
-                new StudentHashTable();
+                System.out.println(
+                        "Invalid input. Please enter a number from 1 to 16."
+                );
 
-        studentHashTable.addStudent(student1);
-        studentHashTable.addStudent(student2);
-        studentHashTable.addStudent(student3);
-        studentHashTable.addStudent(student4);
+                scanner.nextLine();
+                continue;
+            }
 
-        studentHashTable.displayHashTable();
+            choice = scanner.nextInt();
+            scanner.nextLine();
 
-        Student hashResult =
-                studentHashTable.searchStudent("23DA2-0662");
+            switch (choice) {
 
-        if (hashResult != null) {
+                // ==========================================
+                // 1. ADD STUDENT
+                // ==========================================
 
-            System.out.println("Hash Search Result:");
-            hashResult.displayStudent();
+                case 1:
 
-        } else {
+                    System.out.println();
+                    System.out.println(
+                            "========== ADD STUDENT RECORD =========="
+                    );
 
-            System.out.println("Student not found in Hash Table.");
-        }
+                    System.out.print("Enter Student ID: ");
+                    String studentId = scanner.nextLine().trim();
 
+                    if (studentId.isEmpty()) {
+                        System.out.println(
+                                "Student ID cannot be empty."
+                        );
+                        break;
+                    }
 
-        // ==========================================
-        // 7. CAMPUS GRAPH
-        // ==========================================
+                    // Check duplicate Student ID
+                    if (studentList.searchStudent(studentId) != null) {
 
-        System.out.println("\n========== CAMPUS GRAPH ==========");
+                        System.out.println(
+                                "Student ID already exists."
+                        );
 
-        CampusGraph campusGraph = new CampusGraph();
+                        break;
+                    }
 
-        campusGraph.addLocation("Library");
-        campusGraph.addLocation("Cafeteria");
-        campusGraph.addLocation("Main Gate");
-        campusGraph.addLocation("Lecture Hall");
+                    System.out.print("Enter Student Name: ");
+                    String name = scanner.nextLine().trim();
 
-        campusGraph.addConnection(
-                "Library",
-                "Cafeteria"
-        );
+                    if (name.isEmpty()) {
 
-        campusGraph.addConnection(
-                "Cafeteria",
-                "Main Gate"
-        );
+                        System.out.println(
+                                "Student name cannot be empty."
+                        );
 
-        campusGraph.addConnection(
-                "Cafeteria",
-                "Lecture Hall"
-        );
+                        break;
+                    }
 
-        campusGraph.displayConnections();
+                    System.out.print("Enter Programme: ");
+                    String programme = scanner.nextLine().trim();
 
+                    if (programme.isEmpty()) {
 
-        // ==========================================
-        // 8. BFS
-        // ==========================================
+                        System.out.println(
+                                "Programme cannot be empty."
+                        );
 
-        System.out.println("\n========== BFS ==========");
+                        break;
+                    }
 
-        campusGraph.bfs("Library");
+                    double marks;
 
+                    while (true) {
 
-        // ==========================================
-        // 9. TESTING
-        // ==========================================
+                        System.out.print(
+                                "Enter Marks (0 - 100): "
+                        );
 
-        System.out.println("\n========== TESTING ==========");
+                        if (!scanner.hasNextDouble()) {
 
+                            System.out.println(
+                                    "Invalid marks. Please enter a number."
+                            );
 
-        // Test 1: Search Student
+                            scanner.nextLine();
+                            continue;
+                        }
 
-        System.out.println("\n--- Test 1: Search Student ---");
+                        marks = scanner.nextDouble();
+                        scanner.nextLine();
 
-        Student searchResult =
-                studentList.searchStudent("23DA2-0662");
+                        if (marks < 0 || marks > 100) {
 
-        if (searchResult != null) {
+                            System.out.println(
+                                    "Invalid marks. Marks must be between 0 and 100."
+                            );
 
-            System.out.println("Student found:");
-            searchResult.displayStudent();
+                        } else {
 
-        } else {
+                            break;
+                        }
+                    }
 
-            System.out.println("Student not found.");
-        }
+                    Student newStudent = new Student(
+                            studentId,
+                            name,
+                            programme,
+                            marks
+                    );
 
+                    // Add to Linked List
+                    studentList.addStudent(newStudent);
 
-        // Test 2: Update Student
+                    // Add to BST
+                    studentBST.insertStudent(newStudent);
 
-        System.out.println("\n--- Test 2: Update Student ---");
+                    // Add to Hash Table
+                    hashTable.addStudent(newStudent);
 
-        studentList.updateStudent(
-                "23DA2-0662",
-                "MF FASEERA",
-                "BAIT",
-                88
-        );
+                    // Record action in Stack
+                    actionStack.pushAction(
+                            "Added student: " + studentId
+                    );
 
+                    System.out.println(
+                            "Student record added successfully."
+                    );
 
-        // Test 3: Delete Student
+                    break;
 
-        System.out.println("\n--- Test 3: Delete Student ---");
+                // ==========================================
+                // 2. UPDATE STUDENT
+                // ==========================================
 
-        studentList.deleteStudent("23DA2-0946");
+                case 2:
 
+                    System.out.println();
+                    System.out.println(
+                            "========== UPDATE STUDENT =========="
+                    );
 
-        // Test 4: Search Deleted Student
+                    System.out.print("Enter Student ID: ");
+                    String updateId = scanner.nextLine().trim();
 
-        System.out.println("\n--- Test 4: Search Deleted Student ---");
+                    Student existingStudent =
+                            studentList.searchStudent(updateId);
 
-        Student deletedStudent =
-                studentList.searchStudent("23DA2-0946");
+                    if (existingStudent == null) {
 
-        if (deletedStudent == null) {
+                        System.out.println(
+                                "Student not found."
+                        );
 
-            System.out.println(
-                    "Deleted student not found - Test Passed."
-            );
+                        break;
+                    }
 
-        } else {
+                    System.out.print("Enter New Name: ");
+                    String newName = scanner.nextLine().trim();
 
-            System.out.println(
-                    "Student still exists - Test Failed."
-            );
-        }
+                    if (newName.isEmpty()) {
 
+                        System.out.println(
+                                "Name cannot be empty."
+                        );
 
-        // Test 5: Duplicate Student ID
+                        break;
+                    }
 
-        System.out.println("\n--- Test 5: Duplicate Student ID ---");
+                    System.out.print("Enter New Programme: ");
+                    String newProgramme =
+                            scanner.nextLine().trim();
 
-        Student duplicateStudent = new Student(
-                "23DA2-0872",
-                "Duplicate Student",
-                "BAIT",
-                70
-        );
+                    if (newProgramme.isEmpty()) {
 
-        studentList.addStudent(duplicateStudent);
+                        System.out.println(
+                                "Programme cannot be empty."
+                        );
 
+                        break;
+                    }
 
-        // Test 6: Invalid Graph Connection
+                    double newMarks;
+
+                    while (true) {
+
+                        System.out.print(
+                                "Enter New Marks (0 - 100): "
+                        );
+
+                        if (!scanner.hasNextDouble()) {
+
+                            System.out.println(
+                                    "Invalid marks. Please enter a number."
+                            );
+
+                            scanner.nextLine();
+                            continue;
+                        }
+
+                        newMarks = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if (newMarks < 0 || newMarks > 100) {
+
+                            System.out.println(
+                                    "Marks must be between 0 and 100."
+                            );
+
+                        } else {
+
+                            break;
+                        }
+                    }
+
+                    studentList.updateStudent(
+                            updateId,
+                            newName,
+                            newProgramme,
+                            newMarks
+                    );
+
+                    actionStack.pushAction(
+                            "Updated student: " + updateId
+                    );
+
+                    break;
+
+                // ==========================================
+                // 3. DELETE STUDENT
+                // ==========================================
+
+                 case 3:
+
+    System.out.println();
+    System.out.println(
+            "========== DELETE STUDENT =========="
+    );
+
+    System.out.print("Enter Student ID: ");
+
+    String deleteId = scanner.nextLine().trim();
+
+    if (studentList.searchStudent(deleteId) == null) {
 
         System.out.println(
-                "\n--- Test 6: Invalid Graph Connection ---"
+                "Student not found."
         );
 
-        campusGraph.addConnection(
-                "Library",
-                "Unknown Location"
-        );
+        break;
+    }
 
+    // Delete from Linked List
+    studentList.deleteStudent(deleteId);
 
-        // Test 7: Invalid BFS Location
+    // Delete from BST
+    studentBST.deleteStudent(deleteId);
 
-        System.out.println(
-                "\n--- Test 7: Invalid BFS Location ---"
-        );
+    // Delete from Hash Table
+    hashTable.deleteStudent(deleteId);
 
-        campusGraph.bfs("Unknown Location");
+    // Record action
+    actionStack.pushAction(
+            "Deleted student: " + deleteId
+    );
 
+    System.out.println(
+            "Student deleted successfully from all data structures."
+    );
 
-        // ==========================================
-        // PROGRAM COMPLETED
-        // ==========================================
+    break; 
+   
 
-        System.out.println("\n================================");
-        System.out.println("   PROGRAM COMPLETED SUCCESSFULLY");
-        System.out.println("================================");
+                // ==========================================
+                // 4. DISPLAY ALL STUDENTS
+                // ==========================================
+
+                case 4:
+
+                    System.out.println();
+
+                    studentList.displayStudents();
+
+                    break;
+
+                // ==========================================
+                // 5. ADD SERVICE REQUEST
+                // ==========================================
+
+                case 5:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== ADD SERVICE REQUEST =========="
+                    );
+
+                    System.out.print(
+                            "Enter Service Request: "
+                    );
+
+                    String request =
+                            scanner.nextLine().trim();
+
+                    if (request.isEmpty()) {
+
+                        System.out.println(
+                                "Service request cannot be empty."
+                        );
+
+                        break;
+                    }
+
+                    serviceQueue.addRequest(request);
+
+                    actionStack.pushAction(
+                            "Added service request"
+                    );
+
+                    break;
+
+                // ==========================================
+                // 6. PROCESS SERVICE REQUEST
+                // ==========================================
+
+                case 6:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== PROCESS SERVICE REQUEST =========="
+                    );
+
+                    serviceQueue.processNextRequest();
+
+                    break;
+
+                // ==========================================
+                // 7. DISPLAY RECENT ACTIONS
+                // ==========================================
+
+                case 7:
+
+                    System.out.println();
+
+                    actionStack.displayActions();
+
+                    break;
+
+                // ==========================================
+                // 8. DISPLAY BST
+                // ==========================================
+
+                case 8:
+
+                    System.out.println();
+
+                    studentBST.displayStudents();
+
+                    break;
+
+                // ==========================================
+                // 9. SEARCH USING HASHING
+                // ==========================================
+
+                case 9:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== SEARCH STUDENT =========="
+                    );
+
+                    System.out.print(
+                            "Enter Student ID: "
+                    );
+
+                    String searchId =
+                            scanner.nextLine().trim();
+
+                    Student foundStudent =
+                            hashTable.searchStudent(searchId);
+
+                    if (foundStudent == null) {
+
+                        System.out.println(
+                                "Student not found in Hash Table."
+                        );
+
+                    } else {
+
+                        System.out.println(
+                                "Student found:"
+                        );
+
+                        foundStudent.displayStudent();
+                    }
+
+                    break;
+
+                // ==========================================
+                // 10. ADD CAMPUS LOCATION
+                // ==========================================
+
+                case 10:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== ADD CAMPUS LOCATION =========="
+                    );
+
+                    System.out.print(
+                            "Enter Location Name: "
+                    );
+
+                    String location =
+                            scanner.nextLine().trim();
+
+                    campusGraph.addLocation(location);
+
+                    break;
+
+                // ==========================================
+                // 11. REMOVE CAMPUS LOCATION
+                // ==========================================
+
+                case 11:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== REMOVE CAMPUS LOCATION =========="
+                    );
+
+                    System.out.print(
+                            "Enter Location Name: "
+                    );
+
+                    String removeLocation =
+                            scanner.nextLine().trim();
+
+                    campusGraph.removeLocation(
+                            removeLocation
+                    );
+
+                    break;
+
+                // ==========================================
+                // 12. ADD CAMPUS CONNECTION
+                // ==========================================
+
+                case 12:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== ADD CAMPUS CONNECTION =========="
+                    );
+
+                    System.out.print(
+                            "Enter First Location: "
+                    );
+
+                    String location1 =
+                            scanner.nextLine().trim();
+
+                    System.out.print(
+                            "Enter Second Location: "
+                    );
+
+                    String location2 =
+                            scanner.nextLine().trim();
+
+                    campusGraph.addConnection(
+                            location1,
+                            location2
+                    );
+
+                    break;
+
+                // ==========================================
+                // 13. REMOVE CAMPUS CONNECTION
+                // ==========================================
+
+                case 13:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== REMOVE CAMPUS CONNECTION =========="
+                    );
+
+                    System.out.print(
+                            "Enter First Location: "
+                    );
+
+                    String location3 =
+                            scanner.nextLine().trim();
+
+                    System.out.print(
+                            "Enter Second Location: "
+                    );
+
+                    String location4 =
+                            scanner.nextLine().trim();
+
+                    campusGraph.removeConnection(
+                            location3,
+                            location4
+                    );
+
+                    break;
+
+                // ==========================================
+                // 14. DISPLAY CAMPUS CONNECTIONS
+                // ==========================================
+
+                case 14:
+
+                    System.out.println();
+
+                    campusGraph.displayConnections();
+
+                    break;
+
+                // ==========================================
+                // 15. BFS TRAVERSAL
+                // ==========================================
+
+                case 15:
+
+                    System.out.println();
+                    System.out.println(
+                            "========== BFS CAMPUS TRAVERSAL =========="
+                    );
+
+                    System.out.print(
+                            "Enter Starting Location: "
+                    );
+
+                    String startLocation =
+                            scanner.nextLine().trim();
+
+                    campusGraph.bfs(startLocation);
+
+                    break;
+
+                // ==========================================
+                // 16. EXIT
+                // ==========================================
+
+                case 16:
+
+                    System.out.println();
+                    System.out.println(
+                            "Thank you for using University Campus System."
+                    );
+
+                    break;
+
+                // ==========================================
+                // INVALID CHOICE
+                // ==========================================
+
+                default:
+
+                    System.out.println(
+                            "Invalid choice. Please select 1 to 16."
+                    );
+            }
+
+        } while (choice != 16);
+
+        scanner.close();
     }
 }

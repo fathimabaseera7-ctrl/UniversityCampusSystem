@@ -1,13 +1,8 @@
 package campus;
 
-@SuppressWarnings("java:S106")
 public class StudentBST {
 
-    // ==========================================
-    // NODE CLASS
-    // ==========================================
     private class Node {
-
         Student student;
         Node left;
         Node right;
@@ -24,6 +19,7 @@ public class StudentBST {
     // ==========================================
     // INSERT STUDENT
     // ==========================================
+
     public void insertStudent(Student student) {
 
         if (student == null) {
@@ -40,7 +36,7 @@ public class StudentBST {
 
         System.out.println(
                 "Student inserted into BST: "
-                + student.getStudentId()
+                        + student.getStudentId()
         );
     }
 
@@ -50,15 +46,13 @@ public class StudentBST {
             return new Node(student);
         }
 
-        int comparison = student.getStudentId()
-                .compareTo(node.student.getStudentId());
+        int comparison =
+                student.getStudentId()
+                        .compareTo(node.student.getStudentId());
 
         if (comparison < 0) {
-
             node.left = insertNode(node.left, student);
-
         } else if (comparison > 0) {
-
             node.right = insertNode(node.right, student);
         }
 
@@ -68,6 +62,7 @@ public class StudentBST {
     // ==========================================
     // SEARCH STUDENT
     // ==========================================
+
     public Student searchStudent(String studentId) {
 
         Node result = searchNode(root, studentId);
@@ -85,8 +80,8 @@ public class StudentBST {
             return null;
         }
 
-        int comparison = studentId
-                .compareTo(node.student.getStudentId());
+        int comparison =
+                studentId.compareTo(node.student.getStudentId());
 
         if (comparison == 0) {
             return node;
@@ -100,8 +95,85 @@ public class StudentBST {
     }
 
     // ==========================================
-    // DISPLAY BST - INORDER
+    // DELETE STUDENT
     // ==========================================
+
+    public void deleteStudent(String studentId) {
+
+        if (searchStudent(studentId) == null) {
+            System.out.println("Student not found in BST.");
+            return;
+        }
+
+        root = deleteNode(root, studentId);
+
+        System.out.println(
+                "Student deleted from BST: " + studentId
+        );
+    }
+
+    private Node deleteNode(Node node, String studentId) {
+
+        if (node == null) {
+            return null;
+        }
+
+        int comparison =
+                studentId.compareTo(node.student.getStudentId());
+
+        if (comparison < 0) {
+
+            node.left = deleteNode(node.left, studentId);
+
+        } else if (comparison > 0) {
+
+            node.right = deleteNode(node.right, studentId);
+
+        } else {
+
+            // No child
+            if (node.left == null && node.right == null) {
+                return null;
+            }
+
+            // Only right child
+            if (node.left == null) {
+                return node.right;
+            }
+
+            // Only left child
+            if (node.right == null) {
+                return node.left;
+            }
+
+            // Two children
+            Node successor = findMinimum(node.right);
+
+            node.student = successor.student;
+
+            node.right =
+                    deleteNode(
+                            node.right,
+                            successor.student.getStudentId()
+                    );
+        }
+
+        return node;
+    }
+
+    private Node findMinimum(Node node) {
+
+        while (node.left != null) {
+            node = node.left;
+        }
+
+        return node;
+    }
+
+    // ==========================================
+    // DISPLAY BST
+    // ==========================================
+
     public void displayStudents() {
 
         if (root == null) {
