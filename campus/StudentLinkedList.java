@@ -157,3 +157,4 @@ public class StudentLinkedList {
         }
     }
 }
+duplicate checking
