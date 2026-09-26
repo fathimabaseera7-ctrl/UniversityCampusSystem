@@ -16,10 +16,6 @@ public class StudentBST {
 
     private Node root;
 
-    // ==========================================
-    // INSERT STUDENT
-    // ==========================================
-
     public void insertStudent(Student student) {
 
         if (student == null) {
@@ -59,10 +55,6 @@ public class StudentBST {
         return node;
     }
 
-    // ==========================================
-    // SEARCH STUDENT
-    // ==========================================
-
     public Student searchStudent(String studentId) {
 
         Node result = searchNode(root, studentId);
@@ -85,18 +77,12 @@ public class StudentBST {
 
         if (comparison == 0) {
             return node;
-
         } else if (comparison < 0) {
             return searchNode(node.left, studentId);
-
         } else {
             return searchNode(node.right, studentId);
         }
     }
-
-    // ==========================================
-    // DELETE STUDENT
-    // ==========================================
 
     public void deleteStudent(String studentId) {
 
@@ -108,7 +94,8 @@ public class StudentBST {
         root = deleteNode(root, studentId);
 
         System.out.println(
-                "Student deleted from BST: " + studentId
+                "BST deletion successful for Student ID: "
+                        + studentId
         );
     }
 
@@ -123,30 +110,28 @@ public class StudentBST {
 
         if (comparison < 0) {
 
-            node.left = deleteNode(node.left, studentId);
+            node.left =
+                    deleteNode(node.left, studentId);
 
         } else if (comparison > 0) {
 
-            node.right = deleteNode(node.right, studentId);
+            node.right =
+                    deleteNode(node.right, studentId);
 
         } else {
 
-            // No child
             if (node.left == null && node.right == null) {
                 return null;
             }
 
-            // Only right child
             if (node.left == null) {
                 return node.right;
             }
 
-            // Only left child
             if (node.right == null) {
                 return node.left;
             }
 
-            // Two children
             Node successor = findMinimum(node.right);
 
             node.student = successor.student;
@@ -169,10 +154,6 @@ public class StudentBST {
 
         return node;
     }
-
-    // ==========================================
-    // DISPLAY BST
-    // ==========================================
 
     public void displayStudents() {
 
