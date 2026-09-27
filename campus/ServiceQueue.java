@@ -3,31 +3,20 @@ package campus;
 import java.util.LinkedList;
 import java.util.Queue;
 
-@SuppressWarnings("java:S106")
 public class ServiceQueue {
 
     private Queue<String> serviceRequests;
 
-    // Constructor
     public ServiceQueue() {
         serviceRequests = new LinkedList<>();
     }
 
-    // ==========================================
-    // ADD SERVICE REQUEST
-    // ==========================================
     public void addRequest(String request) {
-
         serviceRequests.offer(request);
-
         System.out.println("Service request added: " + request);
     }
 
-    // ==========================================
-    // PROCESS NEXT REQUEST
-    // ==========================================
     public void processNextRequest() {
-
         if (serviceRequests.isEmpty()) {
             System.out.println("No service requests available.");
             return;
@@ -38,11 +27,7 @@ public class ServiceQueue {
         System.out.println("Processing request: " + request);
     }
 
-    // ==========================================
-    // DISPLAY ALL REQUESTS
-    // ==========================================
     public void displayRequests() {
-
         if (serviceRequests.isEmpty()) {
             System.out.println("No service requests available.");
             return;
@@ -52,22 +37,17 @@ public class ServiceQueue {
         System.out.println("       SERVICE REQUEST QUEUE");
         System.out.println("================================");
 
-       int number = 1;
+        int number = 1;
 
-for (String request : serviceRequests) {
-    System.out.println(number + ". " + request);
-    number++;
-}
+        for (String request : serviceRequests) {
+            System.out.println(number + ". " + request);
+            number++;
         }
 
         System.out.println("--------------------------------");
     }
 
-    // ==========================================
-    // CHECK IF QUEUE IS EMPTY
-    // ==========================================
     public boolean isEmpty() {
-
         return serviceRequests.isEmpty();
     }
 }
