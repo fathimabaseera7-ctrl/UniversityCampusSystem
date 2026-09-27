@@ -182,4 +182,5 @@ public class CampusGraph {
 
         System.out.println("--------------------------------");
     }
-}
+} 
+campus gate open
