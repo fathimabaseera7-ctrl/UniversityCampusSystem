@@ -174,3 +174,4 @@ public class StudentHashTable {
         System.out.println("--------------------------------");
     }
 }
+hash remove
